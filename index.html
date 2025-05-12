@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <title>Digital inkworks</title>
+  <style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    html, body {
+      background: #000;
+      color: #fff;
+      height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover, a:focus {
+      color: #888;
+    }
+
+    /* Container for layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      padding: 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      background: #000;
+      z-index: 1000;
+    }
+     /* Flex container for logo + brand name */
+    .logo-brand {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .logo-brand img {
+      height: 80px;
+      width: 150px;
+      flex-shrink: 0;
+      user-select: none;
+      border-radius: 10px;
+      border-color: #ccc;
+    }
+
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 20px;
+      list-style: none;
+    }
+
+    nav ul li {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    main {
+      padding: 40px 0 80px;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      animation: fadeInUp 1.2s ease forwards;
+    }
+
+    .hero h2 {
+      font-size: 2.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.2s;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      font-weight: 400;
+      max-width: 480px;
+      margin-bottom: 35px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 0.6s;
+      color: #ccc;
+    }
+
+    .btn-primary {
+      padding: 15px 35px;
+      font-size: 1rem;
+      font-weight: 700;
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards;
+      animation-delay: 1s;
+      border-radius: 50px;
+    }
+
+    .btn-primary:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Sections */
+    section {
+      padding: 60px 0;
+      border-bottom: 1px solid #222;
+    }
+
+    .section-title {
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: 900;
+      font-size: 1.7rem;
+      margin-bottom: 40px;
+      position: relative;
+      color: #fff;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 3px;
+      background: #fff;
+      margin: 15px auto 0;
+      opacity: 0.25;
+      border-radius: 2px;
+    }
+
+    /* About */
+    .about-text {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #ccc;
+      text-align: center;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    /* Services grid */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .service-card {
+      background: #111;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(255 255 255 / 0.05);
+      text-align: center;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: default;
+    }
+
+    .service-card:hover {
+      transform: translateY(-15px);
+      box-shadow: 0 15px 50px rgba(255 255 255 / 0.15);
+    }
+
+    .service-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: #fff;
+      transition: color 0.3s ease;
+      user-select: none;
+    }
+
+    .service-title {
+      font-weight: 700;
+      font-size: 1.25rem;
+      margin-bottom: 15px;
+    }
+
+    .service-desc {
+      color: #bbb;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* Plans Section Styles */
+    .plans {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 0 10px;
+    }
+
+    .plan-card {
+      background: #111;
+      border-radius: 15px;
+      border: 2px solid #444;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(255 255 255 / 0.06);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .plan-card:hover, .plan-card:focus-within {
+      transform: translateY(-15px);
+      box-shadow: 0 18px 55px rgba(255 255 255 / 0.15);
+      border-color: #fff;
+      outline: none;
+    }
+
+    .plan-title {
+      font-weight: 900;
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+
+    .plan-price {
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+
+    .plan-duration {
+      font-weight: 600;
+      color: #aaa;
+      margin-bottom: 25px;
+      user-select: none;
+    }
+
+    .plan-features {
+      text-align: left;
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      list-style: none;
+      padding-left: 0;
+      user-select: none;
+    }
+
+    .plan-features li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .plan-features li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .btn-select {
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 2px solid #fff;
+      background: transparent;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      user-select: none;
+      align-self: center;
+      text-decoration: none;
+    }
+
+    .btn-select:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Appointment Booking Section */
+    .appointment-form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #111;
+      padding: 30px 25px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(255 255 255 / 0.05);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .appointment-form label {
+      font-weight: 600;
+      margin-bottom: 8px;
+      user-select: none;
+      font-size: 0.95rem;
+    }
+
+    .appointment-form input,
+    .appointment-form select {
+      background: #000;
+      border: 2px solid #444;
+      padding: 12px 15px;
+      border-radius: 8px;
+      color: #eee;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    .appointment-form textarea {
+      background: #000;
+      border: 2px solid #444;
+      padding: 12px 15px;
+      border-radius: 8px;
+      color: #eee;
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.3s ease;
+    }
+
+    .appointment-form input:focus,
+    .appointment-form select:focus,
+    .appointment-form textarea:focus {
+      outline: none;
+      border-color: #fff;
+      background: #222;
+    }
+
+    .btn-appointment-submit {
+      padding: 15px 30px;
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 50px;
+      cursor: pointer;
+      align-self: center;
+      transition: background 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+
+    .btn-appointment-submit:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    #appointmentStatus {
+      text-align: center;
+      font-weight: 700;
+      margin-top: 10px;
+      min-height: 24px;
+      user-select: none;
+    }
+
+    /* Responsive for mobile phones */
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 2.25rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      nav ul {
+        gap: 10px;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .plans {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 30px 0 60px;
+      }
+
+      .appointment-form {
+        padding: 20px 15px;
+      }
+    }
+    /* Contact form */
+    .contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      user-select: none;
+      font-size: 0.9rem;
+    }
+
+    input, textarea {
+      background: #111;
+      border: 2px solid #444;
+      padding: 12px 15px;
+      border-radius: 8px;
+      color: #eee;
+      font-size: 1rem;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #fff;
+      background: #222;
+    }
+
+    textarea {
+      min-height: 120px;
+    }
+
+    .btn-submit {
+      padding: 15px 30px;
+      background: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border-radius: 50px;
+      cursor: pointer;
+      align-self: center;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 0.9rem;
+      color: #555;
+      user-select: none;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-appointment-submit:hover {
+      background: #fff;
+      color: #000;
+    }
+    #appointmentStatus {
+      text-align: center;
+      font-weight: 700;
+      margin-top: 10px;
+      min-height: 24px;
+      user-select: none;
+    }
+    /* Plans Section Styles */
+    .plans {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 0 10px;
+    }
+
+    .plan-card {
+      background: #111;
+      border-radius: 15px;
+      border: 2px solid #444;
+      padding: 30px 25px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(255 255 255 / 0.06);
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .plan-card:hover, .plan-card:focus-within {
+      transform: translateY(-15px);
+      box-shadow: 0 18px 55px rgba(255 255 255 / 0.15);
+      border-color: #fff;
+      outline: none;
+    }
+
+    .plan-title {
+      font-weight: 900;
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      user-select: none;
+    }
+
+    .plan-price {
+      font-size: 2.25rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
+      user-select: none;
+    }
+
+    .plan-duration {
+      font-weight: 600;
+      color: #aaa;
+      margin-bottom: 25px;
+      user-select: none;
+    }
+
+    .plan-features {
+      text-align: left;
+      color: #bbb;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      line-height: 1.5;
+      list-style: none;
+      padding-left: 0;
+      user-select: none;
+    }
+
+    .plan-features li {
+      margin-bottom: 10px;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .plan-features li::before {
+      content: "✔";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #fff;
+      font-weight: 900;
+      font-size: 1rem;
+      user-select: none;
+    }
+
+    .btn-select {
+      padding: 15px 30px;
+      border-radius: 50px;
+      border: 2px solid #fff;
+      background: transparent;
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: background 0.3s ease, color 0.3s ease;
+      user-select: none;
+      align-self: center;
+      text-decoration: none;
+    }
+
+    .btn-select:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    
+    /* Responsive for mobile phones */
+    @media (max-width: 600px) {
+      .hero h2 {
+        font-size: 2.25rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      nav ul {
+        gap: 10px;
+      }
+
+      .services {
+        grid-template-columns: 1fr;
+      }
+
+      .portfolio {
+        grid-template-columns: 1fr;
+      }
+
+      .plans {
+        grid-template-columns: 1fr;
+      }
+
+      main {
+        padding: 30px 0 60px;
+      }
+    }
+    
+    @media (max-width: 350px) {
+      body, html {
+        font-size: 14px;
+      }
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      .btn-primary, .btn-submit, .btn-select {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+      }
+      header h1 {
+        font-size: 1.2rem;
+      }
+      nav ul li {
+        font-size: 0.85rem;
+      }
+    }
+ 
+
+    @media (max-width: 350px) {
+      body, html {
+        font-size: 14px;
+      }
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      .btn-primary, .btn-submit, .btn-select, .btn-appointment-submit {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+      }
+      header h1 {
+        font-size: 1.2rem;
+      }
+      nav ul li {
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+        <div class="logo-brand">
+      <img src="C:/Users/patel/Desktop/Digital Inkworks/Logo.jpg" alt="Digital InkWorks logo" />
+
+    <nav>
+      <ul>
+        <li><a href="#about" aria-label="Scroll to About">About</a></li>
+        <li><a href="#services" aria-label="Scroll to Services">Services</a></li>
+        <li><a href="#appointment" aria-label="Scroll to Appointment Booking">Appointment</a></li>
+        <li><a href="#plans" aria-label="Scroll to Plans">Plans</a></li>
+        <li><a href="#contact" aria-label="Scroll to Contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero" aria-label="Hero Section">
+    <h2>Empower Your Brand</h2>
+    <p>Cutting-edge digital marketing solutions for modern businesses. Elevate your presence with DIGITAL INKWORKS.</p>
+    <button class="btn-primary" id="heroContactBtn" aria-label="Contact Us">Contact Us</button>
+  </section>
+
+  <section id="about" aria-label="About Us Section">
+    <h3 class="section-title">About Us</h3>
+    <p class="about-text">DIGITAL INKWORKS is a passionate digital marketing team dedicated to driving growth and visibility for our clients through innovative strategies and data-driven results. We believe that less is more, and our black & white themed approach reflects our commitment to clarity, precision, and elegance.</p>
+  </section>
+
+  <section id="services" aria-label="Services Section">
+    <h3 class="section-title">Our Services</h3>
+    <div class="services">
+      <div class="service-card" tabindex="0" aria-label="Web Development service">
+        <div class="service-icon" aria-hidden="true">💻</div>
+        <div class="service-title">Web Development</div>
+        <div class="service-desc">Build modern, responsive, and powerful websites that connect with your audience.</div>
+      </div>
+      <div class="service-card" tabindex="0" aria-label="Prototype Design service">
+        <div class="service-icon" aria-hidden="true">📐</div>
+        <div class="service-title">Prototype Design</div>
+        <div class="service-desc">Rapidly create interactive prototypes to visualize and communicate design concepts before development.</div>
+      </div>
+      <div class="service-card" tabindex="0" aria-label="Logo Design service">
+        <div class="service-icon" aria-hidden="true">🎨</div>
+        <div class="service-title">Logo Design</div>
+        <div class="service-desc">Craft unique and memorable logos to establish a strong brand identity.</div>
+      </div>
+      <div class="service-card" tabindex="0" aria-label="Broucher Design service">
+        <div class="service-icon" aria-hidden="true">📄</div>
+        <div class="service-title">Broucher Design</div>
+        <div class="service-desc">Design compelling brochures that effectively communicate your message and attract customers.</div>
+      </div>
+      <div class="service-card" tabindex="0" aria-label="Business Card Design service">
+        <div class="service-icon" aria-hidden="true">💳</div>
+        <div class="service-title">Business Card Design</div>
+        <div class="service-desc">Create professional business cards that leave a lasting impression.</div>
+      </div>
+      <div class="service-card" tabindex="0" aria-label="Web Hosting service">
+        <div class="service-icon" aria-hidden="true">📡</div>
+        <div class="service-title">Web Hosting</div>
+        <div class="service-desc">Reliable, secure, and high-performance web hosting solutions to keep your website online 24/7.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="appointment" aria-label="Appointment Booking Section">
+    <h3 class="section-title">Book an Appointment</h3>
+    <<form class="appointment-form" id="appointmentForm" action="appointment.php" method="POST" aria-describedby="appointmentInstructions" novalidate>
+      <p id="appointmentInstructions" style="color:#bbb; font-size:0.9rem; text-align:center; margin-bottom: 20px;">
+        Please fill the form below to book your appointment.
+      </p>
+
+      <label for="apptName">Name <span aria-hidden="true" style="color:#f44;">*</span></label>
+      <input type="text" id="apptName" name="name" placeholder="Your full name" required aria-required="true" autocomplete="name" />
+
+      <label for="apptEmail">Email(optional) </label>
+      <input type="email" id="apptEmail" name="email" placeholder="your.email@example.com" required aria-required="true" autocomplete="email" />
+
+      <label for="apptPhone">Phone<span aria-hidden="true" style="color:#f44;">*</span></label>
+      <input type="tel" id="apptPhone" name="phone" placeholder="+1234567890" autocomplete="tel" maxlength="10"/>
+
+      <label for="apptDate">Date <span aria-hidden="true" style="color:#f44;">*</span></label>
+      <input type="date" id="apptDate" name="date" required aria-required="true" min="" />
+
+      <label for="apptTime">Time <span aria-hidden="true" style="color:#f44;">*</span></label>
+      <input type="time" id="apptTime" name="time" required aria-required="true" />
+
+      <label for="apptService">Service <span aria-hidden="true" style="color:#f44;">*</span></label>
+      <select id="apptService" name="service" required aria-required="true">
+        <option value="" disabled selected>Select a service</option>
+        <option value="Web Development">Web Development</option>
+        <option value="Prototype Design">Prototype Design</option>
+        <option value="Logo Design">Logo Design</option>
+        <option value="Broucher Design">Broucher Design</option>
+        <option value="Business Card Design">Business Card Design</option>
+      </select>
+
+      <button type="submit" class="btn-appointment-submit" aria-label="Submit appointment booking">Book Appointment</button>
+
+      <p id="appointmentStatus" role="alert" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section id="plans" aria-label="Plans Section">
+    <h3 class="section-title">Our Plans</h3>
+    <div class="plans" role="list">
+      <article class="plan-card" role="listitem" tabindex="0" aria-label="Starter Plan">
+        <div>
+          <h4 class="plan-title">Starter</h4>
+          <div class="plan-price">₹7,499</div>
+          <ul class="plan-features">
+            <li>New Startup & local Stores</li>
+            <li>1 Page Static Site</li>
+            <li>Basic Prototype</li>
+            <li>Email Support</li>
+            <li>10 Post For Social Media</li>
+            <li>5 Festival Banner</li>
+            <li>24/7 Support & Consultation</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-select" aria-label="Select Basic Plan">Select Plan</a>
+      </article>
+
+      <article class="plan-card" role="listitem" tabindex="0" aria-label="Growth Plan">
+        <div>
+          <h4 class="plan-title">Growth</h4>
+          <div class="plan-price">₹13,499</div>
+          <ul class="plan-features">
+            <li>Growing Startup</li>
+            <li>5 Page Responsive Site</li>
+            <li>Clickable Prototype</li>
+            <li>15 Post For Social Media</li>
+            <li>10 Festival Banner</li>
+            <li>AI chatbot Or Whatsapp in website</li>
+            <li>24/7 Support & Consultation</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-select" aria-label="Select Standard Plan">Select Plan</a>
+      </article>
+
+      <article class="plan-card" role="listitem" tabindex="0" aria-label="Pro Plan">
+        <div>
+          <h4 class="plan-title">Pro</h4>
+          <div class="plan-price">₹24,999</div>
+          <ul class="plan-features">
+            <li>Establish businesses</li>
+            <li>Premium & animated website</li>
+            <li>Full Advance Prototype</li>
+            <li>20 Post For Social Media</li>
+            <li>4 reels For Social Media</li>
+            <li>15 Festival Banner</li>
+            <li>24/7 Support & Consultation</li>
+          </ul>
+        </div>
+        <a href="#contact" class="btn-select" aria-label="Select Premium Plan">Select Plan</a>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" aria-label="Contact Us Section">
+    <h3 class="section-title">Get in Touch</h3>
+    <form class="contact-form" id="contactForm" action="contact.php" method="POST" aria-describedby="formInstructions">
+      <p id="formInstructions" style="color:#bbb; font-size:0.9rem; text-align:center; margin-bottom: 20px;">
+        Fill out the form and we will get back to you promptly.
+      </p>
+      <div class="input-group">
+        <label for="nameInput">Name</label>
+        <input type="text" id="nameInput" name="name" required aria-required="true" placeholder="Your full name" />
+      </div>
+      <div class="input-group">
+        <label for="emailInput">Email</label>
+        <input type="email" id="emailInput" name="email" required aria-required="true" placeholder="your.email@example.com" />
+      </div>
+      <div class="input-group">
+        <label for="PhoneInput">Phone No.</label>
+        <input type="Phone" id="PhoneInput" name="Phone" required aria-required="true" placeholder="your Phone No." maxlength="10" />
+      </div>
+      <div class="input-group">
+        <label for="messageInput">Message</label>
+        <textarea id="messageInput" name="message" required aria-required="true" placeholder="Write your message here..."></textarea>
+      </div>
+      <button type="submit" class="btn-submit" aria-label="Send message">Send</button>
+      <p id="formStatus" role="alert" aria-live="polite" style="margin-top:10px; font-weight:bold;"></p>
+    </form>
+  </section>
+</main>
+
+<footer>
+  &copy; 2024 DIGITAL INKWORKS. All rights reserved.
+</footer>
+
+<script>
+  // Smooth scroll for nav links
+  document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', e => {
+      e.preventDefault();
+      const target = e.target.getAttribute('href');
+      document.querySelector(target).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Hero button scroll to contact
+  document.getElementById('heroContactBtn').addEventListener('click', () => {
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('nameInput').focus();
+  });
+
+  // Simple contact form submission (simulate)
+  const form = document.getElementById('contactForm');
+  const statusMessage = document.getElementById('formStatus');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    statusMessage.style.color = '#fff';
+    statusMessage.textContent = 'Sending message...';
+
+    setTimeout(() => {
+      statusMessage.style.color = '#0f0';
+      statusMessage.textContent = 'Thank you for reaching out! We will contact you soon.';
+      form.reset();
+    }, 1500);
+  });
+
+  // Appointment booking form
+  const appointmentForm = document.getElementById('appointmentForm');
+  const appointmentStatus = document.getElementById('appointmentStatus');
+  const apptDateInput = document.getElementById('apptDate');
+
+  // Set min date for appointment date to today
+  function setMinDate() {
+    const today = new Date().toISOString().split('T')[0];
+    apptDateInput.setAttribute('min', today);
+  }
+  setMinDate();
+
+  appointmentForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    appointmentStatus.style.color = '#fff';
+    appointmentStatus.textContent = 'Booking appointment...';
+
+    // Basic validation
+    if (!appointmentForm.checkValidity()) {
+      appointmentStatus.style.color = '#f44';
+      appointmentStatus.textContent = 'Please fill all required fields correctly.';
+      return;
+    }
+
+    // Simulate submission delay
+    setTimeout(() => {
+      appointmentStatus.style.color = '#0f0';
+      appointmentStatus.textContent = 'Your appointment is booked! We will contact you shortly.';
+      appointmentForm.reset();
+    }, 1500);
+  });
+  
+(function(){if(!window.chatbase||window.chatbase("getState")!=="initialized"){window.chatbase=(...arguments)=>{if(!window.chatbase.q){window.chatbase.q=[]}window.chatbase.q.push(arguments)};window.chatbase=new Proxy(window.chatbase,{get(target,prop){if(prop==="q"){return target.q}return(...args)=>target(prop,...args)}})}const onLoad=function(){const script=document.createElement("script");script.src="https://www.chatbase.co/embed.min.js";script.id="D7vtucDtEWdAS8LsOqFAX";script.domain="www.chatbase.co";document.body.appendChild(script)};if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}})();
+
+</script>
+
+</body>
+</html>
+

@@ -508,15 +508,13 @@
       color: #000;
     }
 
-    /* Footer */
-    footer {
+       .footer-bottom {
       text-align: center;
-      padding: 25px 15px;
-      font-size: 0.9rem;
+      margin-top: 35px;
       color: #555;
-      user-select: none;
+      font-size: 0.85rem;
     }
-
+    
     /* Animations */
     @keyframes fadeInUp {
       0% {
@@ -713,6 +711,73 @@
         font-size: 0.85rem;
       }
     }
+            
+    /* Footer styling */
+    footer {
+      background: #111;
+      border-top: 1px solid #222;
+      padding: 40px 20px;
+      color: #aaa;
+      font-size: 0.9rem;
+      user-select: none;
+    }
+    .footer-container {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+    }
+    .footer-section {
+      flex: 1 1 200px;
+      min-width: 180px;
+    }
+    .footer-section h4 {
+      margin-bottom: 15px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 1.1rem;
+    }
+    .footer-section ul {
+      list-style: none;
+    }
+    .footer-section ul li {
+      margin-bottom: 10px;
+    }
+    .footer-section ul li a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-section ul li a:hover, .footer-section ul li a:focus {
+      color: #fff;
+    }
+    .footer-contact p {
+      margin-bottom: 8px;
+    }
+    .footer-bottom {
+      text-align: center;
+      margin-top: 35px;
+      color: #555;
+      font-size: 0.85rem;
+    }
+    /* Responsive footer */
+    @media(max-width: 600px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      .footer-section {
+        min-width: 100%;
+        text-align: center;
+      }
+      .footer-contact p {
+        margin-bottom: 5px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -826,7 +891,7 @@
       <article class="plan-card" role="listitem" tabindex="0" aria-label="Starter Plan">
         <div>
           <h4 class="plan-title">Starter</h4>
-          <div class="plan-price">₹7,199</div>
+          <div class="plan-price">₹7,499</div>
           <ul class="plan-features">
             <li>New Startup & local Stores</li>
             <li>1 Page Static Site</li>
@@ -843,7 +908,7 @@
       <article class="plan-card" role="listitem" tabindex="0" aria-label="Growth Plan">
         <div>
           <h4 class="plan-title">Growth</h4>
-          <div class="plan-price">₹13,199</div>
+          <div class="plan-price">₹13,499</div>
           <ul class="plan-features">
             <li>Growing Startup</li>
             <li>5 Page Responsive Site</li>
@@ -860,7 +925,7 @@
       <article class="plan-card" role="listitem" tabindex="0" aria-label="Pro Plan">
         <div>
           <h4 class="plan-title">Pro</h4>
-          <div class="plan-price">₹24,199</div>
+          <div class="plan-price">₹24,999</div>
           <ul class="plan-features">
             <li>Establish businesses</li>
             <li>Premium & animated website</li>
@@ -905,8 +970,34 @@
 </main>
 
 <footer>
-  &copy; 2024 DIGITAL INKWORKS. All rights reserved.
+  <div class="footer-container" role="contentinfo">
+    <div class="footer-section footer-contact" aria-label="Company Contact Information">
+      <h4>Contact Us</h4>
+      <p>Mobile No.: <a href="tel:+918849038571">8849038571</a></p>
+      <p>Email: <a href="mailto:digitalinkworks10@gmail.com">digitalinkworks10@gmail.com</a></p>
+      <p>Location: Ahmedabad</p>
+    </div>
+    <div class="footer-section footer-services" aria-label="List of Services">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services" tabindex="0">Web Development</a></li>
+        <li><a href="#services" tabindex="0">Prototype Design</a></li>
+        <li><a href="#services" tabindex="0">Logo Design</a></li>
+        <li><a href="#services" tabindex="0">Broucher Design</a></li>
+        <li><a href="#services" tabindex="0">Business Card Design</a></li>
+        <li><a href="#services" tabindex="0">Web Hosting</a></li>
+      </ul>
+    </div>
+    <div class="footer-section footer-legal" aria-label="Legal Information">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="privacy-policy.html" tabindex="0">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">&copy; 2024 DIGITAL INKWORKS. All rights reserved.</div>
 </footer>
+
 
 <script>
   // Smooth scroll for nav links
